@@ -27,12 +27,14 @@ function fb_likebox_block($op = 'list', $delta = 0, $edit = array()) {
           $fb_scrolling = variable_get('fb_likebox_scrolling', 'no');
           $fb_width = variable_get('fb_likebox_width', '292');
           $fb_height = variable_get('fb_likebox_height', '556');
+          $fb_show_border = variable_get('fb_show_border', 'true');
+          $fb_force_wall = variable_get('fb_force_wall', 'true');
 
           // Set the subject of the block
           $block['subject'] = t('@site_name on Facebook', array('@site_name' => variable_get('site_name', 'Default site name')));
 
           // Call to the theming function.
-          $block['content'] = theme('fb_likebox_facebook', $fb_url, $fb_colorscheme, $fb_header, $fb_stream, $fb_show_faces, $fb_scrolling, $fb_width, $fb_height);
+          $block['content'] = theme('fb_likebox_facebook', $fb_url, $fb_colorscheme, $fb_header, $fb_stream, $fb_show_faces, $fb_scrolling, $fb_width, $fb_height, $fb_show_border, $fb_force_wall);
           return $block;
       }
       break;
@@ -120,6 +122,26 @@ function fb_likebox_block($op = 'list', $delta = 0, $edit = array()) {
             '#default_value' => variable_get('fb_likebox_height', '556'),
             '#description' => t('The height of the plugin in pixels. The default height provided by Facebook API varies based on number of faces to display, and whether the stream is displayed. With the stream displayed, and 10 faces the default height is 556px. With no faces, and no stream the default height is 63px. You will need to play with these value if you haved disabled those features and you want the block to be displayed without an empty section.'),
           );
+          $form['fb_likebox_display_settings']['fb_show_border'] = array(
+            '#type' => 'select',
+            '#title' => t('Border'),
+            '#default_value' => variable_get('fb_show_border', 'true'),
+            '#options' => array(
+              'false' => t('No'),
+              'true' => t('Yes'),
+            ),
+            '#description' => t('Specifies whether or not to show a border around the plugin'),
+          );
+          $form['fb_likebox_display_settings']['fb_force_wall'] = array(
+            '#type' => 'select',
+            '#title' => t('Force wall'),
+            '#default_value' => variable_get('fb_force_wall', 'true'),
+            '#options' => array(
+              'false' => t('No'),
+              'true' => t('Yes'),
+            ),
+            '#description' => t('Specifies whether the stream contains posts from the Places wall or just checkins from friends'),
+          );
           return $form;
       }
       break;
@@ -135,6 +157,8 @@ function fb_likebox_block($op = 'list', $delta = 0, $edit = array()) {
           variable_set('fb_likebox_scrolling', check_plain($edit['fb_likebox_scrolling']));
           variable_set('fb_likebox_width', check_plain($edit['fb_likebox_width']));
           variable_set('fb_likebox_height', check_plain($edit['fb_likebox_height']));
+          variable_set('fb_show_border', check_plain($edit['fb_show_border']));
+          variable_set('fb_force_wall', check_plain($edit['fb_force_wall']));
       }
       break;
   }
@@ -155,6 +179,8 @@ function fb_likebox_theme($existing, $type, $theme, $path) {
         'fb_scrolling' => NULL,
         'fb_width' => NULL,
         'fb_height' => NULL,
+        'fb_show_border' => NULL,
+        'fb_force_wall' => NULL,
       ),
       'path' => $path . '/templates',
       'template' => 'fb_likebox',
