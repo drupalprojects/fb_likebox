@@ -28,7 +28,7 @@ function fb_likebox_block($op = 'list', $delta = 0, $edit = array()) {
           $fb_width = variable_get('fb_likebox_width', '292');
           $fb_height = variable_get('fb_likebox_height', '556');
           $fb_show_border = variable_get('fb_likebox_show_border', 'true');
-          $fb_force_wall = variable_get('fb_likebox_force_wall', 'true');
+          $fb_force_wall = variable_get('fb_likebox_force_wall', 'false');
 
           // Set the subject of the block
           $block['subject'] = t('@site_name on Facebook', array('@site_name' => variable_get('site_name', 'Default site name')));
@@ -67,7 +67,7 @@ function fb_likebox_block($op = 'list', $delta = 0, $edit = array()) {
               'light' => t('Light'),
               'dark' => t('Dark'),
             ),
-            '#description' => t("The color scheme for the plugin. Options: 'light', 'dark'"),
+            '#description' => t("The color scheme for the plugin. Options: 'light', 'dark'."),
           );
           $form['fb_likebox_display_settings']['fb_likebox_header'] = array(
             '#type' => 'select',
@@ -77,7 +77,7 @@ function fb_likebox_block($op = 'list', $delta = 0, $edit = array()) {
               'false' => t('No'),
               'true' => t('Yes'),
             ),
-            '#description' => t('Specifies whether to display the Facebook header at the top of the plugin'),
+            '#description' => t('Specifies whether to display the Facebook header at the top of the plugin.'),
           );
           $form['fb_likebox_display_settings']['fb_likebox_stream'] = array(
             '#type' => 'select',
@@ -87,7 +87,7 @@ function fb_likebox_block($op = 'list', $delta = 0, $edit = array()) {
               'false' => t('No'),
               'true' => t('Yes'),
             ),
-            '#description' => t("Specifies whether to display a stream of the latest posts from the Page's wall"),
+            '#description' => t("Specifies whether to display a stream of the latest posts from the Page's wall."),
           );
           $form['fb_likebox_display_settings']['fb_likebox_show_faces'] = array(
             '#type' => 'select',
@@ -112,19 +112,19 @@ function fb_likebox_block($op = 'list', $delta = 0, $edit = array()) {
           $form['fb_likebox_display_settings']['fb_likebox_force_wall'] = array(
               '#type' => 'select',
               '#title' => t('Force wall'),
-              '#default_value' => variable_get('fb_likebox_force_wall', 'true'),
+              '#default_value' => variable_get('fb_likebox_force_wall', 'false'),
               '#options' => array(
                   'false' => t('No'),
                   'true' => t('Yes'),
               ),
-              '#description' => t('Specifies whether the stream contains posts from the Places wall or just checkins from friends'),
+              '#description' => t('For Places: specifies whether the stream contains posts from the Places wall or just checkins from friends.'),
           );
           // Theming settings.
           $form['fb_likebox_theming_settings']['fb_likebox_width'] = array(
             '#type' => 'textfield',
             '#title' => t('Width'),
             '#default_value' => variable_get('fb_likebox_width', '292'),
-            '#description' => t('The width of the Facebook likebox in pixels'),
+            '#description' => t('The width of the Facebook likebox in pixels.'),
           );
           $form['fb_likebox_theming_settings']['fb_likebox_height'] = array(
             '#type' => 'textfield',
@@ -140,7 +140,7 @@ function fb_likebox_block($op = 'list', $delta = 0, $edit = array()) {
               'false' => t('No'),
               'true' => t('Yes'),
             ),
-            '#description' => t('Specifies whether or not to show a border around the plugin'),
+            '#description' => t('SpSpecifies whether or not to show a border around the plugin. Set to false to style the iframe with your custom CSS.'),
           );
           return $form;
       }
