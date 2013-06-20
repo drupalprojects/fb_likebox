@@ -1,3 +1,6 @@
+FB Likebox: June 20, 2013
+Issue #2018691 by antoniogr: Including the new attributes: show_border and force_wall
+
 FB Likebox: October 19, 2011
 Issue #1257326 by drozas: Renamed variable $facebook_width to $fb_width in fb_likebox.tpl.php.
 
