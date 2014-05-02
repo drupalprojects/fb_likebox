@@ -35,8 +35,8 @@ function fb_likebox_block_configure($delta = '') {
       $form['fb_likebox_display_settings']['fb_likebox_url'] = array(
         '#type' => 'textfield',
         '#title' => t('Facebook Page URL'),
-        '#default_value' => variable_get('fb_likebox_url', 'http://www.facebook.com/wikisaber.es'),
-        '#description' => t('Enter the Facebook Page URL. I.e.: http://www.facebook.com/wikisaber.es'),
+        '#default_value' => variable_get('fb_likebox_url', 'https://www.facebook.com/FacebookDevelopers'),
+        '#description' => t('Enter the Facebook Page URL. I.e.: https://www.facebook.com/FacebookDevelopers'),
         '#required' => TRUE,
       );
       $form['fb_likebox_display_settings']['fb_likebox_colorscheme'] = array(
@@ -153,7 +153,7 @@ function fb_likebox_block_view($delta = '') {
   switch ($delta) {
     case '0':
       // Get the values given in the admin form.
-      $fb_url = variable_get('fb_likebox_url', 'http://www.facebook.com/wikisaber.es');
+      $fb_url = variable_get('fb_likebox_url', 'https://www.facebook.com/FacebookDevelopers');
       $fb_colorscheme = variable_get('fb_likebox_colorscheme', 'light');
       $fb_header = variable_get('fb_likebox_header', 'true');
       $fb_stream = variable_get('fb_likebox_stream', 'true');
