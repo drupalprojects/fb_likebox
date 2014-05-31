@@ -1,3 +1,6 @@
+FB Likebox: May 31, 2014
+Issue #2277543: Adding option for width unix and replacing default url
+
 FB Likebox: June 20, 2013
 Issue #2018691 by antoniogr: Including the new attributes: show_border and force_wall
 
