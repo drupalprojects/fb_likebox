@@ -35,7 +35,7 @@ function fb_likebox_block($op = 'list', $delta = 0, $edit = array()) {
           $block['subject'] = t('@site_name on Facebook', array('@site_name' => variable_get('site_name', 'Default site name')));
 
           // Call to the theming function.
-          $block['content'] = theme('fb_likebox_facebook', $fb_url, $fb_colorscheme, $fb_header, $fb_stream, $fb_show_faces, $fb_scrolling, $fb_width, $fb_height, $fb_show_border, $fb_force_wall);
+          $block['content'] = theme('fb_likebox_facebook', $fb_url, $fb_colorscheme, $fb_header, $fb_stream, $fb_show_faces, $fb_scrolling, $fb_width, $fb_width_units, $fb_height, $fb_show_border, $fb_force_wall);
           return $block;
       }
       break;
@@ -201,7 +201,7 @@ function fb_likebox_theme($existing, $type, $theme, $path) {
         'fb_show_faces' => NULL,
         'fb_scrolling' => NULL,
         'fb_width' => NULL,
-        'fb_width_unit' => NULL,
+        'fb_width_units' => NULL,
         'fb_height' => NULL,
         'fb_show_border' => NULL,
         'fb_force_wall' => NULL,
