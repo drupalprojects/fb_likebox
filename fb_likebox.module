@@ -105,6 +105,13 @@ function fb_likebox_block_configure($delta = '') {
           '#description' => t('For Places: specifies whether the stream contains posts from the Places wall or just checkins from friends.'),
           '#required' => TRUE,
       );
+      $form['fb_likebox_display_settings']['fb_likebox_iframe_title'] = array(
+          '#type' => 'textfield',
+          '#title' => t('iFrame title attribute'),
+          '#default_value' => variable_get('fb_likebox_iframe_title', 'Like us on Facebook'),
+          '#description' => t('The value of the iFrame title attribute.'),
+          '#required' => TRUE,
+      );
       // Theming settings.
       $form['fb_likebox_theming_settings']['fb_likebox_width'] = array(
         '#type' => 'textfield',
@@ -164,11 +171,26 @@ function fb_likebox_block_view($delta = '') {
       $fb_height = variable_get('fb_likebox_height', '556');
       $fb_show_border = variable_get('fb_likebox_show_border', 'true');
       $fb_force_wall = variable_get('fb_likebox_force_wall', 'false');
+      $fb_iframe_title = variable_get('fb_likebox_iframe_title', 'Like us on Facebook');
       // Set the subject of the block
       $block['subject'] = t('@site_name on Facebook', array('@site_name' => variable_get('site_name', 'Default site name')));
       // Call to the theming function.
-      $block['content'] = theme('fb_likebox_facebook', array('fb_url' => $fb_url, 'fb_colorscheme' => $fb_colorscheme, 'fb_header' => $fb_header, 'fb_stream' => $fb_stream,
-      'fb_show_faces' => $fb_show_faces, 'fb_scrolling' => $fb_scrolling, 'fb_width' => $fb_width, 'fb_width_units' => $fb_width_units, 'fb_height' => $fb_height, 'fb_show_border' => $fb_show_border, 'fb_force_wall' => $fb_force_wall));
+      $block['content'] = theme('fb_likebox_facebook',
+        array(
+          'fb_url' => $fb_url,
+          'fb_colorscheme' => $fb_colorscheme,
+          'fb_header' => $fb_header,
+          'fb_stream' => $fb_stream,
+          'fb_show_faces' => $fb_show_faces,
+          'fb_scrolling' => $fb_scrolling,
+          'fb_width' => $fb_width,
+          'fb_width_units' => $fb_width_units,
+          'fb_height' => $fb_height,
+          'fb_show_border' => $fb_show_border,
+          'fb_force_wall' => $fb_force_wall,
+          'fb_iframe_title' => $fb_iframe_title,
+        )
+      );
       return $block;
   }
 }
@@ -191,6 +213,7 @@ function fb_likebox_block_save($delta = '', $edit = array()) {
       variable_set('fb_likebox_height', check_plain($edit['fb_likebox_height']));
       variable_set('fb_likebox_show_border', check_plain($edit['fb_likebox_show_border']));
       variable_set('fb_likebox_force_wall', check_plain($edit['fb_likebox_force_wall']));
+      variable_set('fb_likebox_iframe_title', check_plain($edit['fb_likebox_iframe_title']));
   }
 }
 
@@ -212,6 +235,7 @@ function fb_likebox_theme($existing, $type, $theme, $path) {
         'fb_height' => NULL,
         'fb_show_border' => NULL,
         'fb_force_wall' => NULL,
+        'fb_iframe_title' => NULL,
       ),
       'template' => 'fb_likebox',
       'path' => $path . '/templates',
