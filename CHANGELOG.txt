@@ -1,3 +1,6 @@
+FB Likebox: August 17, 2014
+Issue #2322851: Adding option to add iFrame title attribute
+
 FB Likebox: May 31, 2014
 Issue #2277543: Adding option for width unix and replacing default url
 
