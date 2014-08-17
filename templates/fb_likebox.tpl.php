@@ -11,5 +11,5 @@ src="//www.facebook.com/plugins/likebox.php?href=<?php echo $fb_url; ?>&width=<?
 scrolling="<?php echo $fb_scrolling; ?>"
 frameborder="0"
 style="border: none; overflow: hidden; width: <?php echo $fb_width; ?><?php echo $fb_width_units; ?>; height: <?php echo $fb_height; ?>px;"
-allowTransparency="true">
+allowTransparency="true" title="<?php echo $fb_iframe_title; ?>">
 </iframe>
