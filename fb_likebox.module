@@ -20,17 +20,13 @@ function fb_likebox_block($op = 'list', $delta = 0, $edit = array()) {
         case 0:
           // Get the values given in the admin form.
           $fb_url = variable_get('fb_likebox_url', 'https://www.facebook.com/FacebookDevelopers');
-          $fb_colorscheme = variable_get('fb_likebox_colorscheme', 'light');
-          $fb_header = variable_get('fb_likebox_header', 'true');
-          $fb_stream = variable_get('fb_likebox_stream', 'true');
-          $fb_show_faces = variable_get('fb_likebox_show_faces', 'true');
-          $fb_scrolling = variable_get('fb_likebox_scrolling', 'no');
-          $fb_width = variable_get('fb_likebox_width', '292');
-          $fb_width_units = variable_get('fb_likebox_width_units', 'px');
-          $fb_height = variable_get('fb_likebox_height', '556');
-          $fb_show_border = variable_get('fb_likebox_show_border', 'true');
-          $fb_force_wall = variable_get('fb_likebox_force_wall', 'false');
-          $fb_iframe_title = variable_get('fb_likebox_iframe_title', 'Like us on Facebook');
+          $fb_likebox_hide_header = variable_get('fb_likebox_hide_header', '0');
+          $fb_likebox_stream = variable_get('fb_likebox_stream', '0');
+          $fb_likebox_show_faces = variable_get('fb_likebox_show_faces', '1');
+          $fb_likebox_title = variable_get('fb_likebox_title', 'Like us on Facebook');
+          $fb_likebox_width = variable_get('fb_likebox_width', '340');
+          $fb_likebox_height = variable_get('fb_likebox_height', '500');
+          
 
           // Set the subject of the block
           $block['subject'] = t('@site_name on Facebook', array('@site_name' => variable_get('site_name', 'Default site name')));
