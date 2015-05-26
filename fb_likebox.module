@@ -9,6 +9,7 @@
  * Implements hook_block().
  */
 function fb_likebox_block($op = 'list', $delta = 0, $edit = array()) {
+ drupal_add_js(drupal_get_path('module', 'fb_likebox') . '/fb_likebox.js');
   switch ($op) {
     case 'list':
       $blocks[0]['info'] = t('@site_name on Facebook', array('@site_name' => variable_get('site_name', 'Default site name')));
@@ -16,31 +17,25 @@ function fb_likebox_block($op = 'list', $delta = 0, $edit = array()) {
       return $blocks;
 
     case 'view':
-      switch ($delta) {
+        switch ($delta) {
         case 0:
-          // Get the values given in the admin form.
-          /*$fb_likebox_url = variable_get('fb_likebox_url', 'https://www.facebook.com/FacebookDevelopers');
+          $fb_likebox_url = variable_get('fb_likebox_url', 'https://www.facebook.com/FacebookDevelopers');
           $fb_likebox_hide_header = variable_get('fb_likebox_hide_header', '0');
           $fb_likebox_stream = variable_get('fb_likebox_stream', '0');
           $fb_likebox_show_faces = variable_get('fb_likebox_show_faces', '1');
           $fb_likebox_title = variable_get('fb_likebox_title', 'Like us on Facebook');
           $fb_likebox_width = variable_get('fb_likebox_width', '340');
-          $fb_likebox_height = variable_get('fb_likebox_height', '500');*/
-          
+          $fb_likebox_height = variable_get('fb_likebox_height', '500');
 
-          // Set the subject of the block
-          //$block['subject'] = t('@site_name on Facebook', array('@site_name' => variable_get('site_name', 'Default site name')));
+          $block['subject'] = t('@site_name on Facebook', array('@site_name' => variable_get('site_name', 'Default site name')));
+          $block['content'] = theme('fb_likebox_facebook', $fb_likebox_url, $fb_likebox_hide_header, $fb_likebox_stream, $fb_likebox_show_faces, $fb_likebox_width, $fb_likebox_height,  $fb_likebox_title);
 
-          // Call to the theming function.
-          //$block['content'] = theme('fb_likebox_facebook', $fb_url, $fb_colorscheme, $fb_header, $fb_stream, $fb_show_faces, $fb_scrolling, $fb_width, $fb_width_units, $fb_height, $fb_show_border, $fb_force_wall, $fb_iframe_title);
-          $block['content'] = _fb_likebox_block_view();
           return $block;
       }
       break;
     case 'configure':
       switch ($delta) {
         case 0:
-          // Facebook Widget settings.
           $form['fb_likebox_display_settings'] = array(
               '#type' => 'fieldset',
               '#title' => t('Display options'),
@@ -89,143 +84,14 @@ function fb_likebox_block($op = 'list', $delta = 0, $edit = array()) {
               '#default_value' => variable_get('fb_likebox_height', '500'),
               '#description' => t('The height of the plugin in pixels. Must be a number bigger than 130.'),
               '#required' => TRUE,
-          );          
-          // Facebook Widget settings.
- /*         $form['fb_likebox_display_settings'] = array(
-            '#type' => 'fieldset',
-            '#title' => t('Display options'),
-            '#collapsible' => FALSE,
           );
-          $form['fb_likebox_theming_settings'] = array(
-            '#type' => 'fieldset',
-            '#title' => t('Theming Settings'),
-            '#collapsible' => FALSE,
-          );
-          // Display settings.
-          $form['fb_likebox_display_settings']['fb_likebox_url'] = array(
-            '#type' => 'textfield',
-            '#title' => t('Facebook Page URL'),
-            '#default_value' => variable_get('fb_likebox_url', 'https://www.facebook.com/FacebookDevelopers'),
-            '#description' => t('Enter the Facebook Page URL. I.e.: https://www.facebook.com/FacebookDevelopers'),
-            '#required' => TRUE,
-          );
-          $form['fb_likebox_display_settings']['fb_likebox_colorscheme'] = array(
-            '#type' => 'select',
-            '#title' => t('Color Scheme'),
-            '#default_value' => variable_get('fb_likebox_colorscheme', 'light'),
-            '#options' => array(
-              'light' => t('Light'),
-              'dark' => t('Dark'),
-            ),
-            '#description' => t("The color scheme for the plugin. Options: 'light', 'dark'."),
-            '#required' => TRUE,
-          );
-          $form['fb_likebox_display_settings']['fb_likebox_header'] = array(
-            '#type' => 'select',
-            '#title' => t('Header'),
-            '#default_value' => variable_get('fb_likebox_header', 'true'),
-            '#options' => array(
-              'false' => t('No'),
-              'true' => t('Yes'),
-            ),
-            '#description' => t('Specifies whether to display the Facebook header at the top of the plugin.'),
-            '#required' => TRUE,
-          );
-          $form['fb_likebox_display_settings']['fb_likebox_stream'] = array(
-            '#type' => 'select',
-            '#title' => t('Stream'),
-            '#default_value' => variable_get('fb_likebox_stream', 'true'),
-            '#options' => array(
-              'false' => t('No'),
-              'true' => t('Yes'),
-            ),
-            '#description' => t("Specifies whether to display a stream of the latest posts from the Page's wall."),
-            '#required' => TRUE,
-          );
-          $form['fb_likebox_display_settings']['fb_likebox_show_faces'] = array(
-            '#type' => 'select',
-            '#title' => t('Show Faces'),
-            '#default_value' => variable_get('fb_likebox_show_faces', 'true'),
-            '#options' => array(
-              'false' => t('No'),
-              'true' => t('Yes'),
-            ),
-            '#description' => t('Specifies whether or not to display profile photos in the plugin.'),
-            '#required' => TRUE,
-          );
-          $form['fb_likebox_display_settings']['fb_likebox_scrolling'] = array(
-            '#type' => 'select',
-            '#title' => t('Scrolling'),
-            '#default_value' => variable_get('fb_likebox_scrolling', 'no'),
-            '#options' => array(
-              'no' => t('Disabled'),
-              'yes' => t('Enabled'),
-            ),
-            '#description' => t('Enables vertical scrolling'),
-            '#required' => TRUE,
-          );
-          $form['fb_likebox_display_settings']['fb_likebox_force_wall'] = array(
-              '#type' => 'select',
-              '#title' => t('Force wall'),
-              '#default_value' => variable_get('fb_likebox_force_wall', 'false'),
-              '#options' => array(
-                  'false' => t('No'),
-                  'true' => t('Yes'),
-              ),
-              '#description' => t('For Places: specifies whether the stream contains posts from the Places wall or just checkins from friends.'),
-              '#required' => TRUE,
-          );
-          $form['fb_likebox_display_settings']['fb_likebox_iframe_title'] = array(
-              '#type' => 'textfield',
-              '#title' => t('iFrame title attribute'),
-              '#default_value' => variable_get('fb_likebox_iframe_title', 'Like us on Facebook'),
-              '#description' => t('The value of the iFrame title attribute.'),
-              '#required' => TRUE,
-          );
-          // Theming settings.
-          $form['fb_likebox_theming_settings']['fb_likebox_width'] = array(
-            '#type' => 'textfield',
-            '#title' => t('Width'),
-            '#default_value' => variable_get('fb_likebox_width', '292'),
-            '#description' => t('The width of the Facebook likebox in pixels.'),
-            '#required' => TRUE,
-          );
-          $form['fb_likebox_theming_settings']['fb_likebox_width_units'] = array(
-              '#type' => 'select',
-              '#title' => t('Units'),
-              '#options' => array(
-                  'px' => t('px'),
-                  '%' => t('%'),
-              ),
-              '#default_value' => variable_get('fb_likebox_width_units', 'px'),
-              '#description' => t('The unit for the width of the Facebook likebox, either pixels or percentage.'),
-              '#required' => TRUE,
-          );
-          $form['fb_likebox_theming_settings']['fb_likebox_height'] = array(
-            '#type' => 'textfield',
-            '#title' => t('Height'),
-            '#default_value' => variable_get('fb_likebox_height', '556'),
-            '#description' => t('The height of the plugin in pixels. The default height provided by Facebook API varies based on number of faces to display, and whether the stream is displayed. With the stream displayed, and 10 faces the default height is 556px. With no faces, and no stream the default height is 63px. You will need to play with these value if you haved disabled those features and you want the block to be displayed without an empty section.'),
-            '#required' => TRUE,
-          );
-          $form['fb_likebox_theming_settings']['fb_likebox_show_border'] = array(
-            '#type' => 'select',
-            '#title' => t('Border'),
-            '#default_value' => variable_get('fb_likebox_show_border', 'true'),
-            '#options' => array(
-              'false' => t('No'),
-              'true' => t('Yes'),
-            ),
-            '#description' => t('SpSpecifies whether or not to show a border around the plugin. Set to false to style the iframe with your custom CSS.'),
-            '#required' => TRUE,
-          );*/
+
           return $form;
       }
       break;
     case 'save':
       switch ($delta) {
         case 0:
-          // Set the values given in the block form
           variable_set('fb_likebox_url', check_url($edit['fb_likebox_url']));
           variable_set('fb_likebox_hide_header', check_plain($edit['fb_likebox_hide_header']));
           variable_set('fb_likebox_stream', check_plain($edit['fb_likebox_stream']));
@@ -240,110 +106,44 @@ function fb_likebox_block($op = 'list', $delta = 0, $edit = array()) {
 
 /**
  * Implements hook_theme().
- * 
- * TO-DO: Check if this will be still necessary
  */
-/*function fb_likebox_theme($existing, $type, $theme, $path) {
+function fb_likebox_theme($existing, $type, $theme, $path) {
   return array(
     'fb_likebox_facebook' => array(
       'arguments' => array(
-        'fb_url' => NULL,
-        'fb_colorscheme' => NULL,
-        'fb_header' => NULL,
-        'fb_stream' => NULL,
-        'fb_show_faces' => NULL,
-        'fb_scrolling' => NULL,
-        'fb_width' => NULL,
-        'fb_width_units' => NULL,
-        'fb_height' => NULL,
-        'fb_show_border' => NULL,
-        'fb_force_wall' => NULL,
-        'fb_iframe_title' => NULL,
+        'fb_likebox_url' => variable_get('fb_likebox_url', 'https://www.facebook.com/FacebookDevelopers'),
+        'fb_likebox_hide_header' => variable_get('fb_likebox_hide_header', '0'),
+        'fb_likebox_stream' => variable_get('fb_likebox_stream', '0'),
+        'fb_likebox_show_faces' => variable_get('fb_likebox_show_faces', '1'),
+        'fb_likebox_width' => variable_get('fb_likebox_width', '340'),
+        'fb_likebox_height' => variable_get('fb_likebox_height', '500'),
+        'fb_likebox_title' => variable_get('fb_likebox_title', 'Like us on Facebook'),
       ),
       'path' => $path . '/templates',
       'template' => 'fb_likebox',
     ),
   );
-}*/
-
-/**
- * Builds the link needed to connect with facebook.
- */
-function _fb_likebox_block_view(){
-  // Get the values given in the admin form.
-  $fb_likebox_url = variable_get('fb_likebox_url', 'https://www.facebook.com/FacebookDevelopers');
-  $fb_likebox_hide_header = variable_get('fb_likebox_hide_header', '0');
-  $fb_likebox_stream = variable_get('fb_likebox_stream', '0');
-  $fb_likebox_show_faces = variable_get('fb_likebox_show_faces', '1');
-  $fb_likebox_title = variable_get('fb_likebox_title', 'Like us on Facebook');
-  $fb_likebox_width = variable_get('fb_likebox_width', '340');
-  $fb_likebox_height = variable_get('fb_likebox_height', '500');
-   
-  $block['block'] = array(
-      '#type' => 'container',
-      '#attributes' => array(
-          'class' => array('fb-page'),
-          'data-href' => array($fb_url),
-          'data-width' => array($fb_width),
-          'data-height' => array($fb_height),
-          'data-hide-cover' => array($fb_hide_header),
-          'data-show-facepile' =>  array($fb_show_faces),
-          'data-show-posts' => array($fb_stream),
-      ),
-  );
-  $block['block']['child'] = array(
-      '#type' => 'container',
-      '#attributes' => array(
-          'class' => array('fb-xfbml-parse-ignore'),
-      ),
-  );
-  $block['block']['child']['blockquote'] = array(
-      '#type' => 'link',
-      '#title' => $fb_iframe_title,
-      '#href' => $fb_url,
-      '#suffix' => '</blockquote>',
-      '#prefix' => '<blockquote cite="' . $fb_url . '">',
-  );
-  return $block;
 }
 
 /**
- * Implements hook_form_FORM-ID_alter().
- * 
- * TO-DO: Check if this will be still necessary
- */
-/*function fb_likebox_form_block_admin_configure_alter(&$form, $form_state) {
-  //Only modify the form if it involve our form element this function will be called for every block configure form
-  if (empty($form['block_settings']['fb_likebox_display_settings']) || empty($form['block_settings']['fb_likebox_theming_settings'])) {
-    return;
-  }
-  //Add our validation function
-  $form['#validate'][] = '_fb_likebox_validate_block_settings';
-}*/
-
-/**
  * Perform the validation of the block settings.
- * 
- * TO-DO: Update validation settings for the new values. Check from 7.x-2.x branch
  */
-/*function _fb_likebox_validate_block_settings(&$form, $form_state) {
-  // Facebook display settings validation.
+function _fb_likebox_validate_block_settings(&$form, $form_state) {
+   // Facebook display settings validation.
   $fb_url = $form_state['values']['fb_likebox_url'];
   if (!valid_url($fb_url, TRUE)) {
-    form_set_error('fb_likebox_url', t('Please enter a valid url'));
+    form_set_error('fb_likebox_url', t('Please enter a valid url.'));
   }
+
   // Facebook theming settings validation.
   $fb_width = $form_state['values']['fb_likebox_width'];
-  if (!is_numeric($fb_width) || intval($fb_width) <= 0) {
-    form_set_error('fb_likebox_width', t('Width should be a number bigger than 0'));
+  if (!is_numeric($fb_width) || intval($fb_width) < 280 || intval($fb_width) > 500) {
+    form_set_error('fb_likebox_width', t('Width should be a number between 280 and 500, limits included.'));
   }
-  $fb_width_units = $form_state['values']['fb_likebox_width_units'];
-  if ($fb_width_units == '%' && intval($fb_width) > 100) {
-    form_set_error('fb_likebox_width', t('When using percentages, width should be 100 or smaller'));
-  }
+
   $fb_height = $form_state['values']['fb_likebox_height'];
-  if (!is_numeric($fb_height) || intval($fb_height) <= 0) {
-    form_set_error('fb_likebox_height', t('Height should be a number bigger than 0'));
+  if (!is_numeric($fb_height) || intval($fb_height) < 130) {
+    form_set_error('fb_likebox_height', t('Height should be a number bigger than 130.'));
   }
-}*/
+}
 

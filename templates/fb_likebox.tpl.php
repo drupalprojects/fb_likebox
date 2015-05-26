@@ -6,10 +6,15 @@
  */
 ?>
 
-<iframe
-src="//www.facebook.com/plugins/likebox.php?href=<?php echo $fb_url; ?>&width=<?php echo $fb_width; ?>&colorscheme=<?php echo $fb_colorscheme; ?>&show_faces=<?php echo $fb_show_faces; ?>&bordercolor&stream=<?php echo $fb_stream; ?>&header=<?php echo $fb_header; ?>&height=<?php echo $fb_height; ?>&show_border=<?php echo $fb_show_border; ?>&force_wall=<?php echo $fb_force_wall; ?>"
-scrolling="<?php echo $fb_scrolling; ?>"
-frameborder="0"
-style="border: none; overflow: hidden; width: <?php echo $fb_width; ?><?php echo $fb_width_units; ?>; height: <?php echo $fb_height; ?>px;"
-allowTransparency="true" title="<?php echo $fb_iframe_title; ?>">
-</iframe>
+<div class="fb-page" data-href="<?php echo $fb_likebox_url; ?>"
+	data-width = "<?php echo $fb_likebox_width; ?>"
+	data-height = "<?php echo $fb_likebox_height; ?>"
+	data-hide-cover="<?php echo $fb_likebox_hide_header; ?>"
+	data-show-facepile="<?php echo $fb_likebox_show_faces; ?>"
+	data-show-posts="<?php echo $fb_likebox_stream; ?>">
+	<div class="fb-xfbml-parse-ignore">
+		<blockquote cite="<?php echo $fb_likebox_url; ?>">
+			<a href="<?php echo $fb_likebox_url; ?>"><?php echo $fb_likebox_title; ?></a>
+		</blockquote>
+	</div>
+</div>

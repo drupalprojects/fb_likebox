@@ -1,3 +1,6 @@
+FB Likebox: May 26, 2015
+Issue #2492819: Version with new FB Plugin for 6.x
+
 FB Likebox: August 17, 2014
 Issue #2322851: Adding option to add iFrame title attribute
 
