@@ -5,7 +5,7 @@
  * Facebook Likebox Template.
  */
 ?>
-
+<div id="fb-root"></div>
 <div class="fb-page" data-href="<?php echo $fb_likebox_url; ?>"
 	data-width = "<?php echo $fb_likebox_width; ?>"
 	data-height = "<?php echo $fb_likebox_height; ?>"
