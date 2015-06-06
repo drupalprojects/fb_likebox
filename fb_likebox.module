@@ -149,7 +149,14 @@ function _fb_likebox_block_view(){
     $fb_width = variable_get('fb_likebox_width', '340');
     $fb_height = variable_get('fb_likebox_height', '500');
     $fb_iframe_title = variable_get('fb_likebox_title', 'Like us on Facebook');
-   
+    
+    $block['root-div'] = array(
+      '#type' => 'container',
+      '#attributes' => array(
+        'id' => array('fb-root'),
+      ),
+    );
+
      $block['block'] = array(
         '#type' => 'container',
         '#attributes' => array(
