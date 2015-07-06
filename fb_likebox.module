@@ -50,11 +50,11 @@ function fb_likebox_block_configure($delta = '') {
         '#default_value' => variable_get('fb_likebox_show_faces', '1'),
       );
       $form['fb_likebox_display_settings']['fb_likebox_title'] = array(
-          '#type' => 'textfield',
-          '#title' => t('iFrame title attribute'),
-          '#default_value' => variable_get('fb_likebox_title', 'Like us on Facebook'),
-          '#description' => t('The value of the title attribute.'),
-          '#required' => TRUE,
+        '#type' => 'textfield',
+        '#title' => t('iFrame title attribute'),
+        '#default_value' => variable_get('fb_likebox_title', 'Like us on Facebook'),
+        '#description' => t('The value of the title attribute.'),
+        '#required' => TRUE,
       );
       $form['fb_likebox_display_settings']['fb_likebox_width'] = array(
         '#type' => 'textfield',
@@ -80,8 +80,13 @@ function fb_likebox_block_configure($delta = '') {
 function fb_likebox_block_view($delta = '') {
   switch ($delta) {
     case '0':
-      $block['content'] = _fb_likebox_block_view();
-    break;
+      $block['content'] = array(
+        _fb_likebox_block_view(),
+        '#attached' => array(
+          'js' => array(drupal_get_path('module', 'fb_likebox') . '/fb_likebox.js'),
+        ),
+      );
+      break;
   }
   return $block;
 }
@@ -140,47 +145,47 @@ function _fb_likebox_validate_block_settings(&$form, $form_state) {
 /**
  * Builds the link needed to connect with facebook.
  */
-function _fb_likebox_block_view(){
-     // Get the values given in the admin form.
-    $fb_url = variable_get('fb_likebox_url', 'https://www.facebook.com/FacebookDevelopers');
-    $fb_hide_header = variable_get('fb_likebox_hide_header', 'false');
-    $fb_stream = variable_get('fb_likebox_stream', 'false');
-    $fb_show_faces = variable_get('fb_likebox_show_faces', 'true');
-    $fb_width = variable_get('fb_likebox_width', '340');
-    $fb_height = variable_get('fb_likebox_height', '500');
-    $fb_iframe_title = variable_get('fb_likebox_title', 'Like us on Facebook');
-    
-    $block['root-div'] = array(
-      '#type' => 'container',
-      '#attributes' => array(
-        'id' => array('fb-root'),
-      ),
-    );
+function _fb_likebox_block_view() {
+  // Get the values given in the admin form.
+  $fb_url = variable_get('fb_likebox_url', 'https://www.facebook.com/FacebookDevelopers');
+  $fb_hide_header = variable_get('fb_likebox_hide_header', 'false');
+  $fb_stream = variable_get('fb_likebox_stream', 'false');
+  $fb_show_faces = variable_get('fb_likebox_show_faces', 'true');
+  $fb_width = variable_get('fb_likebox_width', '340');
+  $fb_height = variable_get('fb_likebox_height', '500');
+  $fb_iframe_title = variable_get('fb_likebox_title', 'Like us on Facebook');
 
-     $block['block'] = array(
-        '#type' => 'container',
-        '#attributes' => array(
-          'class' => array('fb-page'),
-          'data-href' => array($fb_url),
-          'data-width' => array($fb_width),
-          'data-height' => array($fb_height),
-          'data-hide-cover' => array($fb_hide_header),
-          'data-show-facepile' =>  array($fb_show_faces),
-          'data-show-posts' => array($fb_stream),
-        ),
-      );
-     $block['block']['child'] = array(
-        '#type' => 'container',
-        '#attributes' => array(
-          'class' => array('fb-xfbml-parse-ignore'),
-        ),
-      );
-     $block['block']['child']['blockquote'] = array(
-        '#type' => 'link',
-        '#title' => $fb_iframe_title,
-        '#href' => $fb_url,
-        '#suffix' => '</blockquote>',
-        '#prefix' => '<blockquote cite="' . $fb_url . '">',
-      );
-    return $block;
+  $block['root-div'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'id' => array('fb-root'),
+    ),
+  );
+
+  $block['block'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('fb-page'),
+      'data-href' => array($fb_url),
+      'data-width' => array($fb_width),
+      'data-height' => array($fb_height),
+      'data-hide-cover' => array($fb_hide_header),
+      'data-show-facepile' => array($fb_show_faces),
+      'data-show-posts' => array($fb_stream),
+    ),
+  );
+  $block['block']['child'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('fb-xfbml-parse-ignore'),
+    ),
+  );
+  $block['block']['child']['blockquote'] = array(
+    '#type' => 'link',
+    '#title' => $fb_iframe_title,
+    '#href' => $fb_url,
+    '#suffix' => '</blockquote>',
+    '#prefix' => '<blockquote cite="' . $fb_url . '">',
+  );
+  return $block;
 }
