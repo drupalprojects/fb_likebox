@@ -34,6 +34,11 @@ function fb_likebox_block_configure($delta = '') {
         '#description' => t('Enter the Facebook Page URL. I.e.: https://www.facebook.com/FacebookDevelopers'),
         '#required' => TRUE,
       );
+      $form['fb_likebox_display_settings']['fb_likebox_app_id'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Facebook App ID'),
+        '#default_value' => variable_get('fb_likebox_app_id', ''),
+      );
       $form['fb_likebox_display_settings']['fb_likebox_hide_header'] = array(
         '#type' => 'checkbox',
         '#title' => t('Hide cover photo in the header'),
@@ -41,7 +46,7 @@ function fb_likebox_block_configure($delta = '') {
       );
       $form['fb_likebox_display_settings']['fb_likebox_stream'] = array(
         '#type' => 'checkbox',
-        '#title' => t('Show posts from the Page\'s timeline'),
+        '#title' => t("Show posts from the Page's timeline"),
         '#default_value' => variable_get('fb_likebox_stream', '0'),
       );
       $form['fb_likebox_display_settings']['fb_likebox_show_faces'] = array(
@@ -80,12 +85,7 @@ function fb_likebox_block_configure($delta = '') {
 function fb_likebox_block_view($delta = '') {
   switch ($delta) {
     case '0':
-      $block['content'] = array(
-        _fb_likebox_block_view(),
-        '#attached' => array(
-          'js' => array(drupal_get_path('module', 'fb_likebox') . '/fb_likebox.js'),
-        ),
-      );
+      $block['content'] = _fb_likebox_block_view();
       break;
   }
   return $block;
@@ -99,6 +99,7 @@ function fb_likebox_block_save($delta = '', $edit = array()) {
     case '0':
       // Set the values given in the block form
       variable_set('fb_likebox_url', check_url($edit['fb_likebox_url']));
+      variable_set('fb_likebox_app_id', check_plain($edit['fb_likebox_app_id']));
       variable_set('fb_likebox_hide_header', check_plain($edit['fb_likebox_hide_header']));
       variable_set('fb_likebox_stream', check_plain($edit['fb_likebox_stream']));
       variable_set('fb_likebox_show_faces', check_plain($edit['fb_likebox_show_faces']));
@@ -148,6 +149,7 @@ function _fb_likebox_validate_block_settings(&$form, $form_state) {
 function _fb_likebox_block_view() {
   // Get the values given in the admin form.
   $fb_url = variable_get('fb_likebox_url', 'https://www.facebook.com/FacebookDevelopers');
+  $fb_app_id = variable_get('fb_likebox_app_id', '');
   $fb_hide_header = variable_get('fb_likebox_hide_header', 'false');
   $fb_stream = variable_get('fb_likebox_stream', 'false');
   $fb_show_faces = variable_get('fb_likebox_show_faces', 'true');
@@ -187,5 +189,13 @@ function _fb_likebox_block_view() {
     '#suffix' => '</blockquote>',
     '#prefix' => '<blockquote cite="' . $fb_url . '">',
   );
+  $block['#attached']['js'] = array(
+    drupal_get_path('module', 'fb_likebox') . '/fb_likebox.js',
+    array(
+      'data' => array('fb_likebox_app_id' => $fb_app_id),
+      'type' => 'setting',
+    ),
+  );
+
   return $block;
 }
