@@ -10,7 +10,7 @@ Drupal.behaviors.fb_likebox = {
 		  if (d.getElementById(id)) return;
 		  js = d.createElement(s);
 		  js.id = id;
-		  js.src = "//connect.facebook.net/en_EN/sdk.js#xfbml=1&version=v2.3";
+		  js.src = "//connect.facebook.net/" + settings.fb_likebox_language + "/sdk.js#xfbml=1&version=v2.3";
 		  if (settings.fb_likebox_app_id) {
 			js.src += "&appId=" + settings.fb_likebox_app_id;
 		  }
