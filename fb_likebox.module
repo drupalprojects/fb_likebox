@@ -39,30 +39,52 @@ function fb_likebox_block_configure($delta = '') {
         '#title' => t('Facebook App ID'),
         '#default_value' => variable_get('fb_likebox_app_id', ''),
       );
+      $form['fb_likebox_display_settings']['page_tabs'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Page Tabs: Timeline, Events & Messages'),
+        '#collapsible' => FALSE,
+        '#collapsed' => FALSE,
+      );
+      $form['fb_likebox_display_settings']['page_tabs']['fb_likebox_stream'] = array(
+        '#type' => 'checkbox',
+        '#title' => t("Show posts from the Page's timeline"),
+        '#default_value' => variable_get('fb_likebox_stream', '1'),
+      );
+      $form['fb_likebox_display_settings']['page_tabs']['fb_likebox_events'] = array(
+        '#type' => 'checkbox',
+        '#title' => t("Show events from the Page"),
+        '#default_value' => variable_get('fb_likebox_events', '0'),
+      );
+      $form['fb_likebox_display_settings']['page_tabs']['fb_likebox_messages'] = array(
+        '#type' => 'checkbox',
+        '#title' => t("Show messages from the Page"),
+        '#default_value' => variable_get('fb_likebox_messages', '0'),
+        '#description' => t('To enable messaging on your Facebook page, "Allow people to contact my Page privately by showing the Message button" (Direct Link: https://www.facebook.com/{your-page-name}/settings/?tab=settings&section=messages&view).'),
+      );
       $form['fb_likebox_display_settings']['fb_likebox_hide_header'] = array(
         '#type' => 'checkbox',
         '#title' => t('Hide cover photo in the header'),
         '#default_value' => variable_get('fb_likebox_hide_header', '0'),
       );
-      $form['fb_likebox_display_settings']['fb_likebox_stream'] = array(
-        '#type' => 'checkbox',
-        '#title' => t("Show posts from the Page's timeline"),
-        '#default_value' => variable_get('fb_likebox_stream', '1'),
-      );
-      $form['fb_likebox_display_settings']['fb_likebox_events'] = array(
-        '#type' => 'checkbox',
-        '#title' => t("Show events from the Page"),
-        '#default_value' => variable_get('fb_likebox_events', '0'),
-      );
-      $form['fb_likebox_display_settings']['fb_likebox_messages'] = array(
-        '#type' => 'checkbox',
-        '#title' => t("Show messages from the Page"),
-        '#default_value' => variable_get('fb_likebox_messages', '0'),
-      );
       $form['fb_likebox_display_settings']['fb_likebox_show_faces'] = array(
         '#type' => 'checkbox',
         '#title' => t('Show profile photos when friends like this'),
         '#default_value' => variable_get('fb_likebox_show_faces', '1'),
+      );
+      $form['fb_likebox_display_settings']['fb_likebox_hide_cta'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Hide the custom call to action button (if available)'),
+        '#default_value' => variable_get('fb_likebox_hide_cta', '0'),
+      );
+       $form['fb_likebox_display_settings']['fb_likebox_small_header'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Use the small header instead'),
+        '#default_value' => variable_get('fb_likebox_small_header', '0'),
+      );
+       $form['fb_likebox_display_settings']['fb_likebox_adapt_container_width'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Try to fit inside the container width'),
+        '#default_value' => variable_get('fb_likebox_adapt_container_width', '1'),
       );
       $form['fb_likebox_display_settings']['fb_likebox_title'] = array(
         '#type' => 'textfield',
@@ -85,26 +107,12 @@ function fb_likebox_block_configure($delta = '') {
         '#description' => t('The height of the plugin in pixels. Must be a number bigger than 70.'),
         '#required' => TRUE,
       );
-       $form['fb_likebox_display_settings']['fb_likebox_hide_cta'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Hide the custom call to action button (if available)'),
-        '#default_value' => variable_get('fb_likebox_hide_cta', '0'),
-      );
-       $form['fb_likebox_display_settings']['fb_likebox_small_header'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Use the small header instead'),
-        '#default_value' => variable_get('fb_likebox_small_header', '0'),
-      );
-       $form['fb_likebox_display_settings']['fb_likebox_adapt_container_width'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Try to fit inside the container width'),
-        '#default_value' => variable_get('fb_likebox_adapt_container_width', '1'),
-      );
       $form['fb_likebox_display_settings']['fb_likebox_language'] = array(
        		'#type' => 'select',
        		'#title' => t('Choose your language'),
        		'#options' => _fb_likebox_languages(),
        		'#default_value' => variable_get('fb_likebox_language', 'en_EN'),
+          '#description' => t('This is the language the Page plugin will be displayed in.'),
        );
       return $form;
   }
@@ -341,7 +349,7 @@ function _fb_likebox_languages() {
     'nb_NO' => t('Norwegian (bokmal)'),
     'nd_ZW' => t('Ndebele'),
     'ne_NP' => t('Nepali'),
-    'nl_BE' => t('Dutch (Belgium)'),
+    'nl_BE' => t('Dutch (Belgium  )'),
     'nl_NL' => t('Dutch'),
     'nn_NO' => t('Norwegian (nynorsk)'),
     'ny_MW' => t('Chewa'),
