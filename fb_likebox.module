@@ -253,7 +253,7 @@ function _fb_likebox_block_view() {
  * Array with supported languages
  */
 function _fb_likebox_languages() {
-  return array(
+  $languages = array(
     'af_ZA' => t('Afrikaans'),
     'ak_GH' => t('Akan'),
     'am_ET' => t('Amharic'),
@@ -341,7 +341,7 @@ function _fb_likebox_languages() {
     'nb_NO' => t('Norwegian (bokmal)'),
     'nd_ZW' => t('Ndebele'),
     'ne_NP' => t('Nepali'),
-    'nl_BE' => t('Dutch (België)'),
+    'nl_BE' => t('Dutch (Belgium)'),
     'nl_NL' => t('Dutch'),
     'nn_NO' => t('Norwegian (nynorsk)'),
     'ny_MW' => t('Chewa'),
@@ -394,4 +394,8 @@ function _fb_likebox_languages() {
     'zu_ZA' => t('Zulu'),
     'zz_TR' => t('Zazaki'),
   );
+
+  asort($languages);
+
+  return $languages;
 }
