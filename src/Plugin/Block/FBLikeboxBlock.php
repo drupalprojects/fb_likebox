@@ -13,9 +13,9 @@ use Drupal\Core\Form\FormStateInterface;
  * Provides a configurable block with Facebook Likebox's plugin.
  *
  * @Block(
- *  id = "fb_likebox_block",
- *  admin_label = @Translation("FB Likebox"),
- *  category = @Translation("FB Likebox"),
+ *   id = "fb_likebox_block",
+ *   admin_label = @Translation("FB Likebox"),
+ *   category = @Translation("FB Likebox")
  * )
  */
 class FBLikeboxBlock extends BlockBase {
