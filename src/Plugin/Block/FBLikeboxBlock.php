@@ -196,7 +196,7 @@ class FBLikeboxBlock extends BlockBase {
    *   Returns a list of all available facebook likebox languages.
    */
   protected function likeboxLanguages() {
-    return [
+    $languages = [
       'af_ZA' => $this->t('Afrikaans'),
       'ak_GH' => $this->t('Akan'),
       'am_ET' => $this->t('Amharic'),
@@ -284,7 +284,7 @@ class FBLikeboxBlock extends BlockBase {
       'nb_NO' => $this->t('Norwegian (bokmal)'),
       'nd_ZW' => $this->t('Ndebele'),
       'ne_NP' => $this->t('Nepali'),
-      'nl_BE' => $this->t('Dutch (België)'),
+      'nl_BE' => $this->t('Dutch (Belgium)'),
       'nl_NL' => $this->t('Dutch'),
       'nn_NO' => $this->t('Norwegian (nynorsk)'),
       'ny_MW' => $this->t('Chewa'),
@@ -337,6 +337,8 @@ class FBLikeboxBlock extends BlockBase {
       'zu_ZA' => $this->t('Zulu'),
       'zz_TR' => $this->t('Zazaki'),
     ];
+    asort($languages);
+    return $languages;
   }
 
 }
