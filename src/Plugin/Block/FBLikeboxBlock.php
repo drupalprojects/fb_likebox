@@ -55,16 +55,6 @@ class FBLikeboxBlock extends BlockBase {
       '#title' => $this->t("Show posts from the Page's timeline"),
       '#default_value' => $config['stream'],
     );
-    $form['fb_likebox_display_settings']['events'] = array(
-      '#type' => 'checkbox',
-      '#title' => $this->t('Show posts from the Page'),
-      '#default_value' => $config['events'],
-    );
-    $form['fb_likebox_display_settings']['messages'] = array(
-      '#type' => 'checkbox',
-      '#title' => $this->t('Show messages from the Page'),
-      '#default_value' => $config['messages'],
-    );
     $form['fb_likebox_display_settings']['show_faces'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Show profile photos when friends like this'),
@@ -136,17 +126,6 @@ class FBLikeboxBlock extends BlockBase {
 
     $config = $this->getConfiguration();
 
-    $fb_tabs = [];
-    if($config['stream'] == 1) {
-      $fb_tabs[] = 'timeline';
-    }
-    if($config['events'] == 1) {
-      $fb_tabs[] = 'events';
-    }
-    if($config['messages'] == 1) {
-      $fb_tabs[] = 'messages';
-    }
-
     $render['root-div'] = [
       '#type' => 'container',
       '#attributes' => [
@@ -161,9 +140,9 @@ class FBLikeboxBlock extends BlockBase {
         'data-href' => $config['url'],
         'data-width' => $config['width'],
         'data-height' => $config['height'],
-        'data-tabs' => implode(',', $fb_tabs),
         'data-hide-cover' => $config['hide_header'],
         'data-show-facepile' => $config['show_faces'],
+        'data-show-posts' => $config['stream'],
         'data-hide-cta' => $config['hide_cta'],
         'data-small-header' => $config['small_header'],
         'data-adapt-container-width' => $config['adapt_container_width'],
