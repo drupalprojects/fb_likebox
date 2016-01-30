@@ -118,7 +118,6 @@ class FBLikeboxBlock extends BlockBase {
     return $form;
   }
 
-
   /**
    * {@inheritdoc}
    */
@@ -205,7 +204,6 @@ class FBLikeboxBlock extends BlockBase {
       'width' => '',
       'height' => '',
       'hide_cta' => '',
-      'small_cta' => '',
       'small_header' => '',
       'adapt_container_width' => '',
       'language' => [],

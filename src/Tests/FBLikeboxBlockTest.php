@@ -17,18 +17,11 @@ use Drupal\simpletest\WebTestBase;
 class FBLikeboxBlockTest extends WebTestBase {
 
   /**
-   * @todo Remove the disabled strict config schema checking.
-   */
-  protected $strictConfigSchema = FALSE;
-
-  /**
    * Modules to enable.
    *
    * @var array
    */
-  public static $modules = array(
-    'system_test', 'block','fb_likebox'
-  );
+  public static $modules = ['system_test', 'block','fb_likebox'];
 
   /**
    * {@inheritdoc}
@@ -53,16 +46,16 @@ class FBLikeboxBlockTest extends WebTestBase {
     foreach (['bartik', 'seven', 'stark'] as $theme) {
       $this->drupalGet('admin/structure/block/list/' . $theme);
       $this->assertTitle(t('Block layout') . ' | Drupal');
-      $settings = array();
-      $settings['settings[fb_likebox_display_settings][url]'] = 'https://www.facebook.com/FacebookDevelopers';
-      $settings['settings[fb_likebox_display_settings][title]'] = 'Iframe Title';
-      $settings['settings[fb_likebox_display_settings][width]'] = 180;
-      $settings['settings[fb_likebox_display_settings][height]'] = 70;
-      $settings['settings[fb_likebox_display_settings][language]'] = 'en_IN';
-      $settings['region'] = 'content';
-      $settings['theme'] = $theme;
-      $this->drupalPostForm('admin/structure/block/add/fb_likebox_block', $settings, t('Save block'));
-      $this->assertText(t('The block configuration has been saved.'));
+      // Configure and save the block.
+      $this->drupalPlaceBlock('fb_likebox_block', array(
+        'url' => 'https://www.facebook.com/FacebookDevelopers',
+        'title' => 'Iframe Title',
+        'width' => 180,
+        'height' => 70,
+        'language' => 'en_IN',
+        'region' => 'content',
+        'theme' => $theme,
+      ));
       // Set the default theme and ensure the block is placed.
       $theme_settings->set('default', $theme)->save();
       $this->drupalGet('');
@@ -70,5 +63,4 @@ class FBLikeboxBlockTest extends WebTestBase {
       $this->assertEqual(count($result), 1, 'Facebook Likebox block found');
     }
   }
-
 }

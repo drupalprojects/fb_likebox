@@ -1,4 +1,4 @@
-block.settings.fb_likebox:
+block.settings.fb_likebox_block:
   type: block_settings
   label: 'FB Likebox block settings'
   mapping:
