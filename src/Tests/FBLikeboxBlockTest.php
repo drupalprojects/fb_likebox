@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\fb_likebox\Tests\FBLikeboxBlockTest.
- */
-
 namespace Drupal\fb_likebox\Tests;
 
 use Drupal\simpletest\WebTestBase;
@@ -21,7 +16,7 @@ class FBLikeboxBlockTest extends WebTestBase {
    *
    * @var array
    */
-  public static $modules = ['system_test', 'block','fb_likebox'];
+  public static $modules = ['system_test', 'block', 'fb_likebox'];
 
   /**
    * {@inheritdoc}
@@ -45,7 +40,6 @@ class FBLikeboxBlockTest extends WebTestBase {
     $theme_settings = $this->config('system.theme');
     foreach (['bartik', 'seven', 'stark'] as $theme) {
       $this->drupalGet('admin/structure/block/list/' . $theme);
-      $this->assertTitle(t('Block layout') . ' | Drupal');
       // Configure and save the block.
       $this->drupalPlaceBlock('fb_likebox_block', array(
         'url' => 'https://www.facebook.com/FacebookDevelopers',

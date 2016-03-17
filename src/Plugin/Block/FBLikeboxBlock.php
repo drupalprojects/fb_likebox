@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\fb_likebox\Plugin\Block\FBLikeboxBlock.
- */
 
 namespace Drupal\fb_likebox\Plugin\Block;
 
@@ -136,13 +132,13 @@ class FBLikeboxBlock extends BlockBase {
     $config = $this->getConfiguration();
 
     $fb_tabs = [];
-    if($config['stream'] == 1) {
+    if ($config['stream'] == 1) {
       $fb_tabs[] = 'timeline';
     }
-    if($config['events'] == 1) {
+    if ($config['events'] == 1) {
       $fb_tabs[] = 'events';
     }
-    if($config['messages'] == 1) {
+    if ($config['messages'] == 1) {
       $fb_tabs[] = 'messages';
     }
 
